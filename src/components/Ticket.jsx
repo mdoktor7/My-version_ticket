@@ -24,7 +24,7 @@ import {
 } from "./Ticket.styled";
 import { Timer } from "./Timer";
 
-export const Ticket = ({ stop, carNumber }) => {
+export const Ticket = ({ stop, carNumber, passengerCount }) => {
   const transformTime = (date) => {
     const dateString = new Date(date);
     const hours = dateString.getHours().toString().padStart(2, "0");
@@ -49,6 +49,8 @@ export const Ticket = ({ stop, carNumber }) => {
 
   const beforeDate = new Date() - 86400000;
 
+  const ticketSeries = Array.from({ length: passengerCount }, () => getRandomInt(123456789, 987654321));
+
   return (
     <Container style={stop ? { filter: "grayscale(100%)" } : {}}>
       <div
@@ -63,10 +65,11 @@ export const Ticket = ({ stop, carNumber }) => {
         <ul style={{ display: "grid", gap: "5px" }}>
           <TicketInfoItem>Вінниця</TicketInfoItem>
           <TicketInfoItem>КП Вінницька транспортна компанія</TicketInfoItem>
-          <TicketInfoItem>
-            <span style={{ color: "#999999" }}>Серія</span>{" "}
-            {!stop ? getRandomInt(123456789, 987654321) : 472538021}
-          </TicketInfoItem>
+          {ticketSeries.map((series, index) => (
+            <TicketInfoItem key={index}>
+              <span style={{ color: "#999999" }}>Серія</span> {series}
+            </TicketInfoItem>
+          ))}
         </ul>
       </div>
       <TicketLogo>
@@ -98,7 +101,7 @@ export const Ticket = ({ stop, carNumber }) => {
         </PropertieItem>
         <PropertieItem>
           <ItemTitle>Стандартний</ItemTitle>
-          <ItemInfo>1 шт.</ItemInfo>
+          <ItemInfo>{passengerCount} шт.</ItemInfo>
         </PropertieItem>
       </PropertieList>
       <AddInfo>Квиток разового використання</AddInfo>

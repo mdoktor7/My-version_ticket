@@ -5,16 +5,14 @@ import { useParams } from "react-router-dom";
 const TicketPage = () => {
   const { carNumber, passengers } = useParams();
 
-  const ticketComponents = Array.from({ length: passengers }, (_, index) => (
-    <Ticket key={index} stop={index % 2 === 1} carNumber={carNumber} />
-  ));
-
   return (
     <>
       <Header />
-      {ticketComponents}
+      <Ticket stop={false} carNumber={carNumber} passengerCount={parseInt(passengers)} />
     </>
   );
 };
 
 export default TicketPage;
+
+
